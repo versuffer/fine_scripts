@@ -9,19 +9,23 @@ def tree_to_dict(initial_dir_path, tree_dict=None):
     tree_dict = tree_dict or {}
 
     dir_name = pathlib.Path(initial_dir_path).name
-    tree_dict[dir_name] = []
     dir_content = os.listdir(initial_dir_path)
+    tree_dict[dir_name] = []
 
     for i in dir_content:
+
         step_down = pathlib.Path(initial_dir_path).joinpath(i)
+        branch = i
 
         if os.path.isdir(step_down):
-            tree_dict[dir_name].append(tree_to_dict(step_down, dict()))
-        else:
-            tree_dict[dir_name].append(i)
+            branch = tree_to_dict(step_down, dict())
+
+        tree_dict[dir_name].append(branch)
 
     return tree_dict
 
 
-a = tree_to_dict(os.getcwd())
+a = pathlib.Path(os.getcwd()).parent.parent
+pprint(tree_to_dict(a))
+
 pprint(a)
