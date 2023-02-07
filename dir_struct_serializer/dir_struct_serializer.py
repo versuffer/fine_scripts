@@ -1,4 +1,3 @@
-import os
 import pathlib
 
 
@@ -11,19 +10,19 @@ def tree_to_dict(initial_dir_path, tree_dict=None):
     tree_dict[dir_name] = []
 
     try:
-        dir_content = os.listdir(initial_dir_path)
+        dir_content = pathlib.Path(initial_dir_path).iterdir()
+
+        for file_path in dir_content:
+
+            branch = file_path.name
+
+            if file_path.is_dir():
+                branch = tree_to_dict(file_path)
+
+            tree_dict[dir_name].append(branch)
+
     except PermissionError:
-        dir_content = []
-
-    for i in dir_content:
-
-        step_down = pathlib.Path(initial_dir_path).joinpath(i)
-        branch = i
-
-        if os.path.isdir(step_down):
-            branch = tree_to_dict(step_down, dict())
-
-        tree_dict[dir_name].append(branch)
+        tree_dict[dir_name].append('PERMISSION DENIED')
 
     return tree_dict
 
