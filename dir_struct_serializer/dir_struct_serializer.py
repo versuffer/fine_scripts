@@ -1,4 +1,5 @@
 import pathlib
+from pprint import pprint
 
 
 def tree_to_dict(initial_dir_path, tree_dict=None):
@@ -27,3 +28,6 @@ def tree_to_dict(initial_dir_path, tree_dict=None):
         tree_dict[dir_name]['children'][branch_name] = branch_content
 
     return tree_dict
+
+
+pprint(tree_to_dict(pathlib.Path.cwd()))
