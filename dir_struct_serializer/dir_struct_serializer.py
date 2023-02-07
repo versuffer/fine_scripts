@@ -1,6 +1,5 @@
 import os
 import pathlib
-from pprint import pprint
 
 
 def tree_to_dict(initial_dir_path, tree_dict=None):
@@ -9,8 +8,12 @@ def tree_to_dict(initial_dir_path, tree_dict=None):
     tree_dict = tree_dict or {}
 
     dir_name = pathlib.Path(initial_dir_path).name
-    dir_content = os.listdir(initial_dir_path)
     tree_dict[dir_name] = []
+
+    try:
+        dir_content = os.listdir(initial_dir_path)
+    except PermissionError:
+        dir_content = []
 
     for i in dir_content:
 
@@ -24,8 +27,3 @@ def tree_to_dict(initial_dir_path, tree_dict=None):
 
     return tree_dict
 
-
-a = pathlib.Path(os.getcwd()).parent.parent
-pprint(tree_to_dict(a))
-
-pprint(a)
