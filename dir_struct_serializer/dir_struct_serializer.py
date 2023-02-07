@@ -1,5 +1,5 @@
 import os
-import re
+import pathlib
 from pprint import pprint
 
 
@@ -8,12 +8,13 @@ def tree_to_dict(initial_dir_path, tree_dict=None):
 
     tree_dict = tree_dict or {}
 
-    dir_name = re.findall('[\\\/]?[^\\\/]+\Z', initial_dir_path)[0]
+    dir_name = pathlib.Path(initial_dir_path).name
     tree_dict[dir_name] = []
     dir_content = os.listdir(initial_dir_path)
 
     for i in dir_content:
-        step_down = initial_dir_path + '\\' + i
+        step_down = pathlib.Path(initial_dir_path).joinpath(i)
+
         if os.path.isdir(step_down):
             tree_dict[dir_name].append(tree_to_dict(step_down, dict()))
         else:
