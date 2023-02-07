@@ -4,6 +4,7 @@ from pprint import pprint
 
 
 def tree_to_dict(initial_dir_path, tree_dict=None):
+    """This function serializes directory structure to python dictionary"""
 
     tree_dict = tree_dict or {}
 
