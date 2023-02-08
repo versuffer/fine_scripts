@@ -20,6 +20,8 @@ def tree_to_dict(initial_dir_path, tree_dict=None):
 
             if file_path.is_dir():
                 branch_content = tree_to_dict(file_path)
+                tree_dict[dir_name]['children'][branch_name] = branch_content[branch_name]
+                continue
 
         except PermissionError:
             branch_content = {'type': 'dir',
